@@ -7,3 +7,9 @@ User's input -> Transformers Library -> Custom Class -> Spotify API -> Song
 1. Create an Spotify App
 2. Select options: Web API and Web Playback SDK
 3. In file `.env` add `client_id` and `client_secret`
+
+## How to install
+```
+npm run build
+flask run
+```

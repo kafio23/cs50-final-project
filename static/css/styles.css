@@ -1,0 +1,43 @@
+body {
+    background-image: url('../img/Gemini_Generated_Image_i5cakbi5cakbi5ca.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media (max-width: 768px) {
+    body {
+        background-image: url('../img/Gemini_Generated_Image_i5cakbi5cakbi5ca.jpeg');
+        background-attachment: fixed;
+    }
+}
+
+h1 {
+    color: white !important;
+    font-size: 30px;
+    text-shadow: 0px 3px 30px black, 0 0 1em black, 0 0 0.5em black;
+}
+
+div.form-container {
+    border-radius: 15px;
+    padding: 10px;
+    background-image: linear-gradient(#53aa9f, #596361, #954f91);
+}
+
+div.form-div button {
+    background-color: initial;
+    border-color: white;
+    color: white;
+    border-width: 2px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+div.textarea-div {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+div.form-div label {
+    font-size: 20px;
+    color: #000000;
+}
