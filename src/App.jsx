@@ -1,39 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
+import WebPlayback from './Webplayback';
+import Auth from './Auth';
 
 const App = () => {
-  const [data, setData] = useState({});
-  const [isButtonDisabled, setButtonDisabled] = useState(false);
-  const [textareaResponse, setTextareaResponse] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
-  const userInput = { textareaResponse: textareaResponse };
+  const accessToken = Auth()
+  const [showSpinner, setShowSpinner] = useState(false)
+  const [data, setData] = useState({})
+  const [showPlayer, setShowPlayer] = useState(false)
+  const [isButtonDisabled, setButtonDisabled] = useState(false)
+  const [textareaResponse, setTextareaResponse] = useState('')
+  const [imageUrl, setImageUrl] = useState('')
+  const [trackUri, setTrackUri] = useState()
+  const userInput = { textareaResponse: textareaResponse }
+
 
   const handleTextareaChange = (event) => {
     setTextareaResponse(event.target.value);
   };
 
-  const enableButton = () => {
+  const disableButton = () => {
     setButtonDisabled(true);
   };
 
   const updateImageUrl = (data) => {
-    setImageUrl(data.album.images[0].url)
+    setImageUrl(data.album.images[0]?.url)
+  }
+
+  const setPlayingTrack = (data) => {
+    setTrackUri(data?.uri)
+    setShowSpinner(false)
   }
 
   const submit = () => {
-    enableButton();
+    disableButton()
+    setShowSpinner(true)
 
     axios.post('http://127.0.0.1:5000/emotify', userInput)
       .then(res => {
         setData(res.data.data);
+        setPlayingTrack(res.data.data);
         updateImageUrl(res.data.data);
       })
+
+    setShowPlayer(true)
   };
 
   return (
     <div className='container text-center'>
-      <script src="https://sdk.scdn.co/spotify-player.js"></script>
-
       <div className='mt-4 mb-2'>
         <br></br>
         <h1>Welcome to Emotify!</h1>
@@ -42,9 +56,14 @@ const App = () => {
         <div className='spotify-div' hidden={!imageUrl}>
           <img src={imageUrl} alt='Logo' />
         </div>
+
+        <div hidden={!showPlayer}>
+          <WebPlayback accessToken={accessToken} trackUri={trackUri} />
+        </div>
+
         <div className='form-div'>
           <form className='row mt-3'>
-            <div className='spinner-div mt-3 mb-4' hidden={!isButtonDisabled}>
+            <div className='spinner-div mt-3 mb-4' hidden={!showSpinner}>
               <div className='spinner-grow' style={{ marginRight: '7px' }} role='status'>
                 <span className='visually-hidden'>Loading...</span>
               </div>
