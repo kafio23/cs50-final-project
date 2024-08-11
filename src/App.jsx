@@ -12,7 +12,6 @@ const App = () => {
   const [textareaResponse, setTextareaResponse] = useState('')
   const [imageUrl, setImageUrl] = useState('')
   const [trackUri, setTrackUri] = useState()
-  const userInput = { textareaResponse: textareaResponse }
 
 
   const handleTextareaChange = (event) => {
@@ -36,12 +35,15 @@ const App = () => {
     disableButton()
     setShowSpinner(true)
 
-    axios.post('http://127.0.0.1:5000/emotify', userInput)
+    axios.post('http://127.0.0.1:5000/emotify', { textareaResponse: textareaResponse })
       .then(res => {
         setData(res.data.data);
         setPlayingTrack(res.data.data);
         updateImageUrl(res.data.data);
       })
+      .catch(error => {
+        console.error('Axios Error:', error);
+      });
 
     setShowPlayer(true)
   };
@@ -83,7 +85,6 @@ const App = () => {
                   name='textareaResponse'
                   rows='3'
                   required='required'
-                  value={textareaResponse}
                   onChange={handleTextareaChange}
                 ></textarea>
               </div>
